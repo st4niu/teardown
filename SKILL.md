@@ -64,7 +64,7 @@ For a machine outside `SKILL_DIR`, make a folder with a `main.js` and import the
 
 - **Test on an integrated GPU.** A page that runs at 60 fps on a desktop card can drop to 15 fps on a laptop's built-in one. The examples carry quality tiers (`TIERS` in `live.js`): no AO, lower pixel ratio, smaller shadow maps, panels redrawn every other frame. Find the expensive shader first: a displacement computed 5 times per vertex costs more than every tier together.
 - **Warm the shaders.** `kit/warm.js` compiles every program in parallel before the first frame, so the page never freezes on first draw.
-- **Keep the page under 1 MB.** Link crawlers (X, Slack) read the share card from the HTML and give up on a 15 MB page. Big models go out as files next to the page: `build.json` → `{"external": {"heavy.glb": "light.glb"}}`.
+- **Page size depends on where it goes.** A page opened locally or sent as a file may be a few MB: inline the models (`.glb` imports become base64), because an external file next to the page cannot be fetched from `file://`. Only a page published at a URL whose link will be shared needs to stay under about 1 MB: link crawlers (X, Slack) read the share card from the HTML and give up on a 15 MB page. In that case big models go out as files next to the page: `build.json` → `{"external": {"heavy.glb": "light.glb"}}`.
 
 ## render(t) contract
 
