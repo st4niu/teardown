@@ -19,6 +19,8 @@ export const CHROMIUM = process.env.CHROMIUM || undefined;
 // an integrated GPU when a discrete one exists. capture.mjs prints the GPU it got on every run.
 export const CHROMIUM_ARGS = [
   ...(process.platform === 'win32' ? ['--use-angle=d3d11'] : []),
+  // macOS: the headless shell otherwise falls back to SwiftShader over Vulkan, which cannot create a WebGL context
+  ...(process.platform === 'darwin' ? ['--use-angle=metal'] : []),
   '--force_high_performance_gpu', '--ignore-gpu-blocklist', '--enable-gpu-rasterization', '--enable-webgl', '--hide-scrollbars',
 ];
 
